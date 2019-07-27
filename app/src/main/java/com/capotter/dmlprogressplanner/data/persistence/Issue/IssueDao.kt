@@ -8,14 +8,17 @@ import com.capotter.dmlprogressplanner.data.model.Issue
 interface IssueDao {
 
     @Insert
-    fun insertIssue(issue: Issue): Long
+    fun insertIssue(issue: Issue)
 
     @Query("SELECT * FROM issues")
     fun getIssues(): LiveData<List<Issue>>
 
+    @Query("SELECT * FROM issues WHERE title LIKE :title LIMIT 1")
+    fun getIssueByTitle(title: String): Issue
+
     @Delete
-    fun deleteIssue(title: String): Long
+    fun deleteIssue(issue: Issue): Int
 
     @Update
-    fun updateIssue(title: String, body: String): Long
+    fun updateIssue(issue: Issue): Int
 }

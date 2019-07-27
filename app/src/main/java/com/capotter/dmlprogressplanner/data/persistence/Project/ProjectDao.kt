@@ -8,15 +8,18 @@ import com.capotter.dmlprogressplanner.data.model.Project
 interface ProjectDao {
 
     @Insert
-    fun insertProject(project: Project): Long
+    fun insertProject(project: Project)
 
     @Query("SELECT * FROM projects")
     fun getProjects(): LiveData<List<Project>>
 
+    @Query("SELECT * FROM projects WHERE name LIKE :name LIMIT 1")
+    fun getProjectByName(name: String): Project
+
     @Delete
-    fun deleteProject(title: String): Long
+    fun deleteProject(project: Project): Int
 
     @Update
-    fun updateProject(title: String, body: String): Long
+    fun updateProject(project: Project): Int
 
 }

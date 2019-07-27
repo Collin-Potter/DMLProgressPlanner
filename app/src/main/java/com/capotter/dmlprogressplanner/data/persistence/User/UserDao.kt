@@ -8,14 +8,17 @@ import com.capotter.dmlprogressplanner.data.model.User
 interface UserDao {
 
     @Insert
-    fun insertUser(user: User): Long
+    fun insertUser(user: User)
 
     @Query("SELECT * FROM users")
     fun getUsers(): LiveData<List<User>>
 
+    @Query("SELECT * FROM users WHERE name LIKE :name LIMIT 1")
+    fun getUserByName(name: String): User
+
     @Delete
-    fun deleteUser(title: String): Long
+    fun deleteUser(user: User): Int
 
     @Update
-    fun updateUser(title: String): Long
+    fun updateUser(user: User): Int
 }

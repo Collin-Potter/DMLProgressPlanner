@@ -7,17 +7,17 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "issues")
 class Issue(
     @PrimaryKey(autoGenerate = true)
-    var pid: Long?,
+    var pid: Long,
     @ColumnInfo(name = "id")
-    var id: Long?,
+    var id: Long,
     @ColumnInfo(name = "title")
-    var title: String?,
+    var title: String,
     @ColumnInfo(name = "body")
-    var body: String?,
+    var body: String,
     @ColumnInfo(name = "state")
-    var state: String?,
+    var state: String,
     @ColumnInfo(name = "created_at")
-    var created_at: String?,
+    var created_at: String,
     @ColumnInfo(name = "updated_at")
     var updated_at: String?
     )

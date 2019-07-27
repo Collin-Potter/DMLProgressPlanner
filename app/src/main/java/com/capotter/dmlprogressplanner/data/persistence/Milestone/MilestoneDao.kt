@@ -8,14 +8,17 @@ import com.capotter.dmlprogressplanner.data.model.Milestone
 interface MilestoneDao {
 
     @Insert
-    fun insertMilestone(milestone: Milestone): Long
+    fun insertMilestone(milestone: Milestone)
 
     @Query("SELECT * FROM milestones")
     fun getMilestones(): LiveData<List<Milestone>>
 
+    @Query("SELECT * FROM milestones WHERE title LIKE :title LIMIT 1")
+    fun getMilestoneByTitle(title: String): Milestone
+
     @Delete
-    fun deleteMilestone(title: String): Long
+    fun deleteMilestone(milestone: Milestone): Int
 
     @Update
-    fun updateMilestone(title: String, body: String): Long
+    fun updateMilestone(milestone: Milestone): Int
 }
