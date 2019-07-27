@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "milestone")
+@Entity(tableName = "milestones")
 class Milestone(
     @PrimaryKey(autoGenerate = true)
     var pid: Long?,
