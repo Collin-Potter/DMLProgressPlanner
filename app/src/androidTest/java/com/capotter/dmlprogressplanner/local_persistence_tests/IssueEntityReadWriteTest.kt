@@ -1,6 +1,5 @@
-package com.capotter.dmlprogressplanner
+package com.capotter.dmlprogressplanner.local_persistence_tests
 
-import android.util.Log
 import androidx.room.Room
 import androidx.test.InstrumentationRegistry
 import com.capotter.dmlprogressplanner.data.model.Issue

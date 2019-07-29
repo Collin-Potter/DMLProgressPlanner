@@ -1,4 +1,4 @@
-package com.capotter.dmlprogressplanner
+package com.capotter.dmlprogressplanner.local_persistence_tests
 
 import androidx.room.Room
 import androidx.test.InstrumentationRegistry
@@ -15,7 +15,7 @@ import org.junit.runners.JUnit4
 import java.io.IOException
 
 @RunWith(JUnit4::class)
-class ProjectEntityReadWriteTest {
+class ProjectEntityCreateDeleteTest {
 
     private lateinit var projectDao: ProjectDao
     private lateinit var db: ProjectDatabase
@@ -36,7 +36,7 @@ class ProjectEntityReadWriteTest {
 
     @Test
     @Throws(Exception::class)
-    fun writeProjectAndReadProject() {
+    fun createProjectAndDeleteProject() {
         val project: Project = Project(
             1,
             1,
@@ -53,5 +53,8 @@ class ProjectEntityReadWriteTest {
         MatcherAssert.assertThat(projectItem.state, CoreMatchers.equalTo(project.state))
         MatcherAssert.assertThat(projectItem.updated_at, CoreMatchers.equalTo(project.updated_at))
         MatcherAssert.assertThat(projectItem.created_at, CoreMatchers.equalTo(project.created_at))
+        projectDao.deleteProject(project)
+        val removedProjectItem = projectDao.getProjectByName(project.name)
+        assert(removedProjectItem == null)
     }
 }

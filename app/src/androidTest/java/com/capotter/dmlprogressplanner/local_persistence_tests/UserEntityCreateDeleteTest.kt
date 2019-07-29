@@ -1,4 +1,4 @@
-package com.capotter.dmlprogressplanner
+package com.capotter.dmlprogressplanner.local_persistence_tests
 
 import androidx.room.Room
 import androidx.test.InstrumentationRegistry
@@ -15,7 +15,7 @@ import org.junit.runners.JUnit4
 import java.io.IOException
 
 @RunWith(JUnit4::class)
-class UserEntityReadWriteTest {
+class UserEntityCreateDeleteTest {
 
     private lateinit var userDao: UserDao
     private lateinit var db: UserDatabase
@@ -36,7 +36,7 @@ class UserEntityReadWriteTest {
 
     @Test
     @Throws(Exception::class)
-    fun writeUserAndReadUser() {
+    fun createUserAndDeleteUser() {
         val user: User = User(
             1,
             1,
@@ -55,5 +55,8 @@ class UserEntityReadWriteTest {
         MatcherAssert.assertThat(userItem.avatar_url, CoreMatchers.equalTo(user.avatar_url))
         MatcherAssert.assertThat(userItem.name, CoreMatchers.equalTo(user.name))
         MatcherAssert.assertThat(userItem.created_at, CoreMatchers.equalTo(user.created_at))
+        userDao.deleteUser(user)
+        val removedUserItem = userDao.getUserByName(user.name)
+        assert(removedUserItem == null)
     }
 }
