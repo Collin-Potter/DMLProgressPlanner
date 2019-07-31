@@ -7,11 +7,25 @@ import retrofit2.http.*
 //TODO: dynamically determine owner, repo, and issue number for specific calls
 interface IssueServiceInterface {
     @GET("/repos/:owner/:repo/issues/:issue_number")
-    fun getSingleIssue() : Call<Issue>
+    fun getSingleIssue(
+        @Query("owner")owner: String,
+        @Query("repo")repo: String,
+        @Query("issue_number")issue_number: String
+    ) : Call<Issue>
     @GET("/repos/:owner/:repo/issues")
-    fun getIssuesForRepository() : Call<Issue>
+    fun getIssuesForRepository(
+        @Query("owner")owner: String,
+        @Query("repo")repo: String
+    ) : Call<Issue>
     @POST("/repos/:owner/:repo/issues")
-    fun createAnIssue() : Call<Issue>
+    fun createAnIssue(
+        @Query("owner")owner: String,
+        @Query("repo")repo: String
+    ) : Call<Issue>
     @PATCH("/repos/:owner/:repo/issues/:issue_number")
-    fun editIssue() : Call<Issue>
+    fun editIssue(
+        @Query("owner")owner: String,
+        @Query("repo")repo: String,
+        @Query("issue_number")issue_number: String
+    ) : Call<Issue>
 }

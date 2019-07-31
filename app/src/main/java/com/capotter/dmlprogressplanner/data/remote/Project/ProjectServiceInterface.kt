@@ -10,17 +10,31 @@ interface ProjectServiceInterface {
     @POST("/user/projects")
     fun createUserProject() : Call<Project>
     @GET("/users/:username/projects")
-    fun getUserProjects() : Call<List<Project>>
+    fun getUserProjects(
+        @Query("username")username: String
+    ) : Call<Project>
 
     @POST("/repos/:owner/:repo/projects")
-    fun createRepositoryProject() : Call<Project>
+    fun createRepositoryProject(
+        @Query("owner")owner: String,
+        @Query("repo")repo: String
+    ) : Call<Project>
     @GET("/repos/:owner/:repo/projects")
-    fun getRepositoryProjects() : Call<List<Project>>
+    fun getRepositoryProjects(
+        @Query("owner")owner: String,
+        @Query("repo")repo: String
+    ) : Call<Project>
 
     @GET("/projects/:project_id")
-    fun getProject() : Call<Project>
+    fun getProject(
+        @Query("project_id")project_id: String
+    ) : Call<Project>
     @PATCH("/projects/:project_id")
-    fun updateProject() : Call<Project>
+    fun updateProject(
+        @Query("project_id")project_id: String
+    ) : Call<Project>
     @DELETE("/projects/:project_id")
-    fun deleteProject() : Call<Project>
+    fun deleteProject(
+        @Query("project_id")project_id: String
+    ) : Call<String>
 }
