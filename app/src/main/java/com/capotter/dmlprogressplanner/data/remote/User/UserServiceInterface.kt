@@ -6,7 +6,7 @@ import retrofit2.http.*
 
 //TODO: dynamically determine username for call
 interface UserServiceInterface {
-    @GET("/users/:username")
+    @GET("/users/{username}")
     fun getUser(
         @Query("username")username: String
     ) : Call<String>
