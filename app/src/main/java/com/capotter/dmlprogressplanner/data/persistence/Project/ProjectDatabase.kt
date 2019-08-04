@@ -12,18 +12,22 @@ abstract class ProjectDatabase: RoomDatabase() {
 
     companion object {
         @Volatile
-        private var instance: ProjectDatabase? = null
-        private val LOCK = Any()
+        private var INSTANCE: ProjectDatabase? = null
 
-        operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
-            instance ?: buildDatabase(context).also { instance = it }
+        fun getDatabase(context: Context): ProjectDatabase {
+            val tempInstance = INSTANCE
+            if (tempInstance != null) {
+                return tempInstance
+            }
+            synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    ProjectDatabase::class.java,
+                    "Project_database"
+                ).build()
+                INSTANCE = instance
+                return instance
+            }
         }
-
-        private fun buildDatabase(context: Context) = Room.databaseBuilder(
-            context,
-            ProjectDatabase::class.java, "project-list.db"
-        )
-            .build()
-
     }
 }

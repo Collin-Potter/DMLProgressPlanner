@@ -7,8 +7,8 @@ import com.capotter.dmlprogressplanner.data.model.Issue
 @Dao
 interface IssueDao {
 
-    @Insert
-    fun insertIssue(issue: Issue)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertIssue(issue: Issue)
 
     @Query("SELECT * FROM issues")
     fun getIssues(): LiveData<List<Issue>>

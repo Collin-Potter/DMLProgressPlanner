@@ -7,8 +7,8 @@ import com.capotter.dmlprogressplanner.data.model.GitHubRepository
 @Dao
 interface GitHubRepositoryDao {
 
-    @Insert
-    fun insertRepo(repo: GitHubRepository)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertRepo(repo: GitHubRepository)
 
     @Query("SELECT * FROM github_repositories")
     fun getRepos(): LiveData<List<GitHubRepository>>

@@ -7,8 +7,8 @@ import com.capotter.dmlprogressplanner.data.model.Milestone
 @Dao
 interface MilestoneDao {
 
-    @Insert
-    fun insertMilestone(milestone: Milestone)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMilestone(milestone: Milestone)
 
     @Query("SELECT * FROM milestones")
     fun getMilestones(): LiveData<List<Milestone>>

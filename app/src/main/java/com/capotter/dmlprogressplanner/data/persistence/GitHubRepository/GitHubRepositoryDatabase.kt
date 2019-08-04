@@ -13,18 +13,23 @@ abstract class GitHubRepositoryDatabase: RoomDatabase() {
 
     companion object {
         @Volatile
-        private var instance: GitHubRepositoryDatabase? = null
-        private val LOCK = Any()
+        private var INSTANCE: GitHubRepositoryDatabase? = null
 
-        operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
-            instance ?: buildDatabase(context).also { instance = it }
+        fun getDatabase(context: Context): GitHubRepositoryDatabase {
+            val tempInstance = INSTANCE
+            if (tempInstance != null) {
+                return tempInstance
+            }
+            synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    GitHubRepositoryDatabase::class.java,
+                    "GitHubRepository_database"
+                ).build()
+                INSTANCE = instance
+                return instance
+            }
         }
-
-        private fun buildDatabase(context: Context) = Room.databaseBuilder(
-            context,
-            GitHubRepositoryDatabase::class.java, "repo-list.db"
-        )
-            .build()
     }
 
 }

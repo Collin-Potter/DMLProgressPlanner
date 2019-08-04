@@ -12,18 +12,22 @@ abstract class MilestoneDatabase: RoomDatabase() {
 
     companion object {
         @Volatile
-        private var instance: MilestoneDatabase? = null
-        private val LOCK = Any()
+        private var INSTANCE: MilestoneDatabase? = null
 
-        operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
-            instance ?: buildDatabase(context).also { instance = it }
+        fun getDatabase(context: Context): MilestoneDatabase {
+            val tempInstance = INSTANCE
+            if (tempInstance != null) {
+                return tempInstance
+            }
+            synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    MilestoneDatabase::class.java,
+                    "Milestone_database"
+                ).build()
+                INSTANCE = instance
+                return instance
+            }
         }
-
-        private fun buildDatabase(context: Context) = Room.databaseBuilder(
-            context,
-            MilestoneDatabase::class.java, "milestone-list.db"
-        )
-            .build()
-
     }
 }
