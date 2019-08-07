@@ -14,7 +14,7 @@ interface UserDao {
     fun getUsers(): LiveData<List<User>>
 
     @Query("SELECT * FROM users WHERE name LIKE :name LIMIT 1")
-    fun getUserByName(name: String): LiveData<User>
+    fun getUserByName(name: String): User
 
     @Delete
     fun deleteUser(user: User): Int

@@ -5,6 +5,9 @@ import androidx.test.InstrumentationRegistry
 import com.capotter.dmlprogressplanner.data.model.Issue
 import com.capotter.dmlprogressplanner.data.persistence.Issue.IssueDao
 import com.capotter.dmlprogressplanner.data.persistence.Issue.IssueDatabase
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
@@ -35,7 +38,7 @@ class IssueEntityReadWriteTest {
 
     @Test
     @Throws(Exception::class)
-    fun writeIssueAndReadIssue() {
+    fun writeIssueAndReadIssue() = runBlocking {
         val issue: Issue =
             Issue(1,
                 1,

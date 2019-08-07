@@ -5,6 +5,9 @@ import androidx.test.InstrumentationRegistry
 import com.capotter.dmlprogressplanner.data.model.Project
 import com.capotter.dmlprogressplanner.data.persistence.Project.ProjectDao
 import com.capotter.dmlprogressplanner.data.persistence.Project.ProjectDatabase
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
 import org.junit.After
@@ -36,7 +39,7 @@ class ProjectEntityReadWriteTest {
 
     @Test
     @Throws(Exception::class)
-    fun writeProjectAndReadProject() {
+    fun writeProjectAndReadProject() = runBlocking {
         val project: Project = Project(
             1,
             1,

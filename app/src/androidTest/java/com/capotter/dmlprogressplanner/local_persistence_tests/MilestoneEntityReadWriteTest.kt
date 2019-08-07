@@ -5,6 +5,9 @@ import androidx.test.InstrumentationRegistry
 import com.capotter.dmlprogressplanner.data.model.Milestone
 import com.capotter.dmlprogressplanner.data.persistence.Milestone.MilestoneDao
 import com.capotter.dmlprogressplanner.data.persistence.Milestone.MilestoneDatabase
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
 import org.junit.After
@@ -36,7 +39,7 @@ class MilestoneEntityReadWriteTest {
 
     @Test
     @Throws(Exception::class)
-    fun writeMilestoneAndReadMilestone() {
+    fun writeMilestoneAndReadMilestone() = runBlocking {
         val milestone: Milestone = Milestone(
             1,
             1,

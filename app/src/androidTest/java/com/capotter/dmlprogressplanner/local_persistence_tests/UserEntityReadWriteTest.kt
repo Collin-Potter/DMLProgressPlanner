@@ -5,6 +5,9 @@ import androidx.test.InstrumentationRegistry
 import com.capotter.dmlprogressplanner.data.model.User
 import com.capotter.dmlprogressplanner.data.persistence.User.UserDao
 import com.capotter.dmlprogressplanner.data.persistence.User.UserDatabase
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
 import org.junit.After
@@ -36,7 +39,7 @@ class UserEntityReadWriteTest {
 
     @Test
     @Throws(Exception::class)
-    fun writeUserAndReadUser() {
+    fun writeUserAndReadUser() = runBlocking {
         val user: User = User(
             1,
             1,

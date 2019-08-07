@@ -29,6 +29,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -66,8 +69,9 @@ dependencies {
     implementation "com.google.dagger:dagger:2.17"
     kapt "com.google.dagger:dagger-compiler:2.17"
     // Room - Local Persistence
-    implementation "androidx.room:room-runtime:2.2.0-alpha01"
+    implementation "androidx.room:room-runtime:2.2.0-alpha02"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
+    implementation "androidx.room:room-ktx:2.2.0-alpha02"
     //ViewModel Lifecycle and LiveData - Removing boilerplate with MVVM
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0-beta01'
