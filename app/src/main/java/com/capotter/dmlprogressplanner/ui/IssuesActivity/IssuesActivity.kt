@@ -2,6 +2,7 @@ package com.capotter.dmlprogressplanner.ui.IssuesActivity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.*
 import com.capotter.dmlprogressplanner.R
 import com.capotter.dmlprogressplanner.data.model.GitHubRepository
@@ -9,14 +10,19 @@ import com.capotter.dmlprogressplanner.data.model.User
 import com.capotter.dmlprogressplanner.data.repository.GitHubRepositoryRepository
 import com.capotter.dmlprogressplanner.data.repository.IssueRepository
 import com.capotter.dmlprogressplanner.data.repository.UserRepository
+import com.capotter.dmlprogressplanner.databinding.ActivityIssuesBinding
 
 class IssuesActivity : AppCompatActivity(), LifecycleOwner {
 
     private val viewModel = ViewModelProviders.of(this).get(IssuesActivityViewModel::class.java)
 
+    private var binding = ActivityIssuesBinding()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_issues)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_issues)
+
+
 
         //TODO: Determine username once logged in and pass through activities
 
