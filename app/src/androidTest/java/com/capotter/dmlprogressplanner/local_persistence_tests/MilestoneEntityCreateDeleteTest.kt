@@ -44,10 +44,9 @@ class MilestoneEntityCreateDeleteTest {
             1,
             1,
             "TestMilestone",
+            "Open",
             "This is a test milestone",
             1,
-            1,
-            "2011-04-22T13:33:48Z",
             "2011-04-22T13:33:48Z",
             "2011-04-22T13:33:48Z",
             "2011-04-22T13:33:48Z"
@@ -57,7 +56,6 @@ class MilestoneEntityCreateDeleteTest {
         MatcherAssert.assertThat(milestoneItem.title, CoreMatchers.equalTo(milestone.title))
         MatcherAssert.assertThat(milestoneItem.description, CoreMatchers.equalTo(milestone.description))
         MatcherAssert.assertThat(milestoneItem.open_issues, CoreMatchers.equalTo(milestone.open_issues))
-        MatcherAssert.assertThat(milestoneItem.closed_issues, CoreMatchers.equalTo(milestone.closed_issues))
         MatcherAssert.assertThat(milestoneItem.created_at, CoreMatchers.equalTo(milestone.created_at))
         MatcherAssert.assertThat(milestoneItem.due_on, CoreMatchers.equalTo(milestone.due_on))
         milestoneDao.deleteMilestone(milestone)

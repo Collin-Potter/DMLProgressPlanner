@@ -47,9 +47,6 @@ class UserEntityCreateDeleteTest {
             "testUrl.jpg",
             "Tom Sawyer",
             1,
-            0,
-            12,
-            1,
             "2011-04-22T13:33:48Z"
         )
         userDao.insertUser(user)

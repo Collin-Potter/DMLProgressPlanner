@@ -10,7 +10,7 @@ class ProjectsActivityBindingAdapters {
 
     private val NUM_COLUMNS = 2
 
-    @BindingAdapter("repositoriesList")
+    @BindingAdapter("projectsRepositoriesList")
     fun setRepositoriesList(view: RecyclerView, repositories: ArrayList<GitHubRepository>) {
         if(repositories.isNullOrEmpty()){
             return

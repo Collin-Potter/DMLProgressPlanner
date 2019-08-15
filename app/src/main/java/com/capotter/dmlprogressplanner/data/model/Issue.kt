@@ -4,6 +4,15 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+/***
+ * Necessary Paramters:
+ * id
+ * state
+ * title
+ * body
+ * created_at
+ * updated_at
+ */
 @Entity(tableName = "issues")
 class Issue(
     @PrimaryKey(autoGenerate = true)

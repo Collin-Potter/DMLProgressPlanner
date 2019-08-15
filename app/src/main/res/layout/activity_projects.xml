@@ -5,17 +5,17 @@
         <import type="com.capotter.dmlprogressplanner.data.model.User"/>
         <import type="com.capotter.dmlprogressplanner.data.model.Project"/>
         <import type="com.capotter.dmlprogressplanner.data.model.GitHubRepository"/>
-        <import type="java.util.List"/>
+        <import type="java.util.ArrayList"/>
 
         <variable
             name="user"
             type="User" />
         <variable
             name="projects"
-            type="List&lt;Project>" />
+            type="ArrayList&lt;Project>" />
         <variable
             name="repositories"
-            type="List&lt;GitHubRepository>"/>
+            type="ArrayList&lt;GitHubRepository>"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -92,7 +92,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:repositoriesList="@{repositories}"/>
+                        app:projectsRepositoriesList="@{repositories}"/>
             </LinearLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

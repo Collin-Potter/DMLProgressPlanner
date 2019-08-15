@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <import type="java.util.List"/>
+        <import type="java.util.ArrayList"/>
         <import type="com.capotter.dmlprogressplanner.data.model.GitHubRepository"/>
         <import type="com.capotter.dmlprogressplanner.data.model.Milestone"/>
         <variable
             name="milestones"
-            type="List&lt;Milestone>"/>
+            type="ArrayList&lt;Milestone>"/>
         <variable
             name="repository"
             type="GitHubRepository"/>

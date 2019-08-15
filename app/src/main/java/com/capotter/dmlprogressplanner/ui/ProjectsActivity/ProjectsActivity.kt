@@ -13,7 +13,7 @@ class ProjectsActivity : AppCompatActivity(), LifecycleOwner {
 
     private val viewModel = ViewModelProviders.of(this).get(ProjectsActivityViewModel::class.java)
 
-    private var binding = ActivityProjectsBinding()
+    private lateinit var binding : ActivityProjectsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

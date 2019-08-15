@@ -12,13 +12,13 @@ class IssuesActivityBindingAdapters {
 
     private val NUM_COLUMNS = 1
 
-    @BindingAdapter("repositoriesList")
+    @BindingAdapter("issuesRepositoriesList")
     fun setRepositoriesList(view: RecyclerView, repositories: ArrayList<GitHubRepository>){
         if(repositories.isNullOrEmpty()){
             return
         }
         val layoutManager = view.layoutManager
-        if(layoutManager == null){
+        if (layoutManager == null) {
             view.layoutManager = GridLayoutManager(view.context, NUM_COLUMNS)
         }
         var adapter: IssuesActivityRepositoriesAdapter = view.adapter as (IssuesActivityRepositoriesAdapter)

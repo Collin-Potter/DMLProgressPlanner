@@ -16,7 +16,7 @@ class IssuesActivity : AppCompatActivity(), LifecycleOwner {
 
     private val viewModel = ViewModelProviders.of(this).get(IssuesActivityViewModel::class.java)
 
-    private var binding = ActivityIssuesBinding()
+    private lateinit var binding : ActivityIssuesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
