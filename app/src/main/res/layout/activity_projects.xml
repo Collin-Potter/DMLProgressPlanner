@@ -2,20 +2,10 @@
 
 <layout>
     <data>
-        <import type="com.capotter.dmlprogressplanner.data.model.User"/>
-        <import type="com.capotter.dmlprogressplanner.data.model.Project"/>
-        <import type="com.capotter.dmlprogressplanner.data.model.GitHubRepository"/>
-        <import type="java.util.ArrayList"/>
-
+        <import type="com.capotter.dmlprogressplanner.ui.ProjectsActivity.ProjectsActivityViewModel"/>
         <variable
-            name="user"
-            type="User" />
-        <variable
-            name="projects"
-            type="ArrayList&lt;Project>" />
-        <variable
-            name="repositories"
-            type="ArrayList&lt;GitHubRepository>"/>
+            name="viewmodel"
+            type="com.capotter.dmlprogressplanner.ui.ProjectsActivity.ProjectsActivityViewModel"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -67,12 +57,12 @@
                 android:layout_height="0dp" app:layout_constraintTop_toBottomOf="@+id/img_banner"
                 android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent">
             <TextView
-                    android:text="@{user.login}"
+                    android:text="@{viewmodel.user.login}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:id="@+id/textview_name"
                     android:gravity="center_horizontal" android:textSize="24sp"/>
             <TextView
-                    android:text="@{user.name}"
+                    android:text="@{viewmodel.user.name}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" android:id="@+id/textview_title" android:textSize="18sp"
                     android:gravity="center_horizontal"/>
@@ -92,7 +82,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:projectsRepositoriesList="@{repositories}"/>
+                        app:projectsRepositoriesList="@{viewmodel.repoList}"/>
             </LinearLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

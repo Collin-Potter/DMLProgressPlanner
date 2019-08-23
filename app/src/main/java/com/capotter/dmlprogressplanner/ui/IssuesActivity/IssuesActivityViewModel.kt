@@ -12,6 +12,7 @@ import com.capotter.dmlprogressplanner.data.persistence.User.UserDatabase
 import com.capotter.dmlprogressplanner.data.repository.GitHubRepositoryRepository
 import com.capotter.dmlprogressplanner.data.repository.IssueRepository
 import com.capotter.dmlprogressplanner.data.repository.UserRepository
+import com.capotter.dmlprogressplanner.data.repository.utils.Resource
 import kotlinx.coroutines.*
 
 class IssuesActivityViewModel(application: Application) : AndroidViewModel(application) {
@@ -20,7 +21,7 @@ class IssuesActivityViewModel(application: Application) : AndroidViewModel(appli
     val userList: LiveData<List<User>>
 
     private val gitHubRepositoryRepository: GitHubRepositoryRepository
-    val repoList: LiveData<List<GitHubRepository>>
+    val repoList: LiveData<Resource<List<GitHubRepository>>>
 
     private val issuesRepository: IssueRepository
     val issueList: LiveData<List<Issue>>
@@ -32,7 +33,7 @@ class IssuesActivityViewModel(application: Application) : AndroidViewModel(appli
 
         val gitHubRepoDao = GitHubRepositoryDatabase.getDatabase(application).repoDao()
         gitHubRepositoryRepository = GitHubRepositoryRepository(gitHubRepoDao)
-        repoList = gitHubRepositoryRepository.getRepositoryList()
+        repoList = gitHubRepositoryRepository.getRepositoriesWithCache()
 
         val issueDao = IssueDatabase.getDatabase(application).issueDao()
         issuesRepository = IssueRepository(issueDao)
@@ -44,15 +45,10 @@ class IssuesActivityViewModel(application: Application) : AndroidViewModel(appli
      */
     fun launchDataLoad() {
         viewModelScope.launch {
-            retrieveUsers()
             retrieveRepositories()
             retrieveIssues()
             // TODO: Modify UI
         }
-    }
-
-    suspend fun retrieveUsers() = withContext(Dispatchers.Default) {
-        // Coroutine for potential large quantities of users
     }
 
     suspend fun retrieveRepositories() = withContext(Dispatchers.Default) {

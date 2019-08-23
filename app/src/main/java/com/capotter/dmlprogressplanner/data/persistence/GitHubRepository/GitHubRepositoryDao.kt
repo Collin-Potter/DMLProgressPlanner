@@ -10,8 +10,11 @@ interface GitHubRepositoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRepo(repo: GitHubRepository)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertRepos(repos: List<GitHubRepository>)
+
     @Query("SELECT * FROM github_repositories")
-    fun getRepos(): LiveData<List<GitHubRepository>>
+    fun getRepos(): List<GitHubRepository>
 
     @Query("SELECT * FROM github_repositories WHERE name LIKE :name LIMIT 1")
     fun getRepoByName(name: String): GitHubRepository

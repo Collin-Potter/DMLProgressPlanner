@@ -5,19 +5,40 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.capotter.dmlprogressplanner.data.model.User
 import com.capotter.dmlprogressplanner.data.persistence.User.UserDao
+import com.capotter.dmlprogressplanner.data.remote.User.UserDatasource
+import com.capotter.dmlprogressplanner.data.repository.utils.NetworkBoundResource
+import com.capotter.dmlprogressplanner.data.repository.utils.Resource
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class UserRepository(private val userDao: UserDao) {
+interface UserRepository {
+    suspend fun getUserDetailWithCache(forceRefresh: Boolean = false, login: String): LiveData<Resource<User>>
+}
+class UserRepositoryImpl(private val userDao: UserDao,
+                         private val datasource: UserDatasource) : UserRepository{
 
-    private var userList: LiveData<List<User>> = userDao.getUsers()
+    override suspend fun getUserDetailWithCache(forceRefresh: Boolean, login: String): LiveData<Resource<User>>{
+        return object : NetworkBoundResource<User, User>() {
 
-    fun getUsers(): LiveData<List<User>> {
-        return userList
+            override fun processResponse(response: User): User
+                = response
+
+            override suspend fun saveCallResults(item: User)
+                = userDao.insertUser(item)
+
+            override fun shouldFetch(data: User?): Boolean
+                = data == null
+                    || data.name.isNullOrEmpty()
+                    || forceRefresh
+
+            override suspend fun loadFromDb(): User
+                = userDao.getUserByName(login)
+
+            override fun createCallAsync(): Deferred<User>
+                = datasource.fetchUserDetails(login)
+
+        }.build().asLiveData()
     }
 
-    @WorkerThread
-    suspend fun insertUser(user: User){
-        userDao.insertUser(user)
-    }
 }

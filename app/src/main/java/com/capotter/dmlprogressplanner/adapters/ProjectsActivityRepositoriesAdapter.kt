@@ -15,7 +15,7 @@ class ProjectsActivityRepositoriesAdapter(private val mContext: Context, private
 
     private val TAG: String = "ProjectsActivityRepositoriesAdapter"
 
-    fun refreshList(repositories: List<GitHubRepository>){
+    fun refreshList(repositories: ArrayList<GitHubRepository>){
         mRepositories.clear()
         mRepositories.addAll(repositories)
         notifyDataSetChanged()

@@ -11,8 +11,9 @@ class ProjectsActivityBindingAdapters {
     private val NUM_COLUMNS = 2
 
     @BindingAdapter("projectsRepositoriesList")
-    fun setRepositoriesList(view: RecyclerView, repositories: ArrayList<GitHubRepository>) {
-        if(repositories.isNullOrEmpty()){
+    fun setRepositoriesList(view: RecyclerView, repositories: List<GitHubRepository>) {
+        val repoList = ArrayList(repositories)
+        if(repoList.isNullOrEmpty()){
             return
         }
         val layoutManager = view.layoutManager
@@ -21,7 +22,7 @@ class ProjectsActivityBindingAdapters {
         }
         var adapter: ProjectsActivityRepositoriesAdapter = view.adapter as (ProjectsActivityRepositoriesAdapter)
         if(adapter == null) {
-            adapter = ProjectsActivityRepositoriesAdapter(view.context, repositories)
+            adapter = ProjectsActivityRepositoriesAdapter(view.context, repoList)
             view.adapter = adapter
         }
     }

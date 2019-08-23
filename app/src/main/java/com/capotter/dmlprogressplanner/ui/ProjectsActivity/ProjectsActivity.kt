@@ -2,6 +2,7 @@ package com.capotter.dmlprogressplanner.ui.ProjectsActivity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.annotation.Nullable
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -11,31 +12,21 @@ import com.capotter.dmlprogressplanner.databinding.ActivityProjectsBinding
 
 class ProjectsActivity : AppCompatActivity(), LifecycleOwner {
 
-    private val viewModel = ViewModelProviders.of(this).get(ProjectsActivityViewModel::class.java)
+    private val viewModel: ProjectsActivityViewModel = ViewModelProviders.of(this).get(ProjectsActivityViewModel::class.java)
 
     private lateinit var binding : ActivityProjectsBinding
+    private var args: String = "" //TODO: Figure out how this will hold login details throughout application
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_projects)
-
-        
-
+        binding.viewmodel = viewModel
         binding.lifecycleOwner = this
-        //TODO: Determine username once logged in and pass through activities
+    }
 
-        viewModel.projectList.observe(this, Observer {it ->
-            //TODO: UI lists should be filled with projects assigned to user (See AdobeXD for structure)
+    override fun onStart() {
+        super.onStart()
 
-        })
-
-        viewModel.repoList.observe(this, Observer {it ->
-            //TODO: repositories should accumulate into list to list as card titles for issues
-        })
-
-        viewModel.userList.observe(this, Observer {it ->
-            //TODO: monitor current user information for list of repositories
-        })
-
+        viewModel.loadDataWhenActivityStarts(args)
     }
 }

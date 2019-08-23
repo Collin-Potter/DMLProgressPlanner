@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DMLProgressPlanner</string>
+    <string name="snackbar_error_msg">An error has occurred, please retry</string>
 </resources>
