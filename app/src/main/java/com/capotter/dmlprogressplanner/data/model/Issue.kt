@@ -15,18 +15,38 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "issues")
 class Issue(
-    @PrimaryKey(autoGenerate = true)
-    var pid: Long,
-    @ColumnInfo(name = "id")
-    var id: Long,
-    @ColumnInfo(name = "title")
-    var title: String,
-    @ColumnInfo(name = "body")
-    var body: String,
+    @PrimaryKey @ColumnInfo(name = "id")
+    val id: Int? = null,
+    @ColumnInfo(name = "node_id")
+    val nodeId: String? = null,
+    @ColumnInfo(name = "url")
+    val url: String? = null,
+    @ColumnInfo(name = "repository_url")
+    val repositoryUrl: String? = null,
+    @ColumnInfo(name = "labels_url")
+    val labelsUrl: String? = null,
+    @ColumnInfo(name = "comments_url")
+    val commentsUrl: String? = null,
+    @ColumnInfo(name = "events_url")
+    val eventsUrl: String? = null,
+    @ColumnInfo(name = "html_url")
+    val htmlUrl: String? = null,
+    @ColumnInfo(name = "number")
+    val number: Int? = null,
     @ColumnInfo(name = "state")
-    var state: String,
+    val state: String? = null,
+    @ColumnInfo(name = "title")
+    val title: String? = null,
+    @ColumnInfo(name = "body")
+    val body: String? = null,
+    @ColumnInfo(name = "locked")
+    val locked: Boolean? = null,
+    @ColumnInfo(name = "active_lock_reason")
+    val activeLockReason: String? = null,
+    @ColumnInfo(name = "comments")
+    val comments: Int? = null,
     @ColumnInfo(name = "created_at")
-    var created_at: String,
+    val createdAt: String? = null,
     @ColumnInfo(name = "updated_at")
-    var updated_at: String?
-    )
+    val updatedAt: String? = null)
+

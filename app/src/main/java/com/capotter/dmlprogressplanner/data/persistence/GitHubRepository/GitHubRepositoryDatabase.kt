@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.capotter.dmlprogressplanner.data.model.GitHubRepository
+import com.capotter.dmlprogressplanner.data.util.Converters
 
 @Database(entities = arrayOf(GitHubRepository::class), version = 1)
 abstract class GitHubRepositoryDatabase: RoomDatabase() {

@@ -10,8 +10,11 @@ interface MilestoneDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMilestone(milestone: Milestone)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMilestones(milestones: List<Milestone>)
+
     @Query("SELECT * FROM milestones")
-    fun getMilestones(): LiveData<List<Milestone>>
+    fun getMilestones(): List<Milestone>
 
     @Query("SELECT * FROM milestones WHERE title LIKE :title LIMIT 1")
     fun getMilestoneByTitle(title: String): Milestone

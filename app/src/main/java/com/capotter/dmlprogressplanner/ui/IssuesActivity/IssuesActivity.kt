@@ -34,10 +34,6 @@ class IssuesActivity : AppCompatActivity(), LifecycleOwner {
             //TODO: repositories should accumulate into list to list as card titles for issues
         })
 
-        viewModel.userList.observe(this, Observer {it ->
-            //TODO: monitor current user information for list of repositories
-        })
-
     }
 
 }

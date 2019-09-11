@@ -3,6 +3,7 @@ package com.capotter.dmlprogressplanner.ui.IssuesActivity
 import android.app.Application
 import android.service.autofill.UserData
 import androidx.lifecycle.*
+import com.capotter.dmlprogressplanner.base.BaseViewModel
 import com.capotter.dmlprogressplanner.data.model.GitHubRepository
 import com.capotter.dmlprogressplanner.data.model.Issue
 import com.capotter.dmlprogressplanner.data.model.User
@@ -12,53 +13,45 @@ import com.capotter.dmlprogressplanner.data.persistence.User.UserDatabase
 import com.capotter.dmlprogressplanner.data.repository.GitHubRepositoryRepository
 import com.capotter.dmlprogressplanner.data.repository.IssueRepository
 import com.capotter.dmlprogressplanner.data.repository.UserRepository
+import com.capotter.dmlprogressplanner.data.repository.utils.AppDispatchers
 import com.capotter.dmlprogressplanner.data.repository.utils.Resource
+import com.capotter.dmlprogressplanner.ui.domain.GetIssueListUseCase
 import kotlinx.coroutines.*
 
-class IssuesActivityViewModel(application: Application) : AndroidViewModel(application) {
+class IssuesActivityViewModel(private val getIssueListUseCase: GetIssueListUseCase,
+                              private val dispatchers: AppDispatchers) : BaseViewModel() {
 
-    private var userRepository: UserRepository
-    val userList: LiveData<List<User>>
+    //PRIVATE DATA
+    private lateinit var argsLogin: String
+    private var userSource: LiveData<Resource<User>> = MutableLiveData()
+    private var repoSource: LiveData<Resource<List<GitHubRepository>>> = MutableLiveData()
+    private var issueSource: LiveData<Resource<List<Issue>>> = MutableLiveData()
 
-    private val gitHubRepositoryRepository: GitHubRepositoryRepository
-    val repoList: LiveData<Resource<List<GitHubRepository>>>
+    private val _user = MediatorLiveData<User>()
+    val user: LiveData<User> get() = _user
+    private val _repoList = MediatorLiveData<List<GitHubRepository>>()
+    val repoList: LiveData<List<GitHubRepository>> get() = _repoList
+    private val _issueList = MediatorLiveData<List<Issue>>()
+    val issueList: LiveData<List<Issue>> get() = _issueList
+    private val _isLoading = MutableLiveData<Resource.Status>()
+    val isLoading: LiveData<Resource.Status> get() = _isLoading
 
-    private val issuesRepository: IssueRepository
-    val issueList: LiveData<List<Issue>>
-
-    init {
-        val userDao = UserDatabase.getDatabase(application).userDao()
-        userRepository = UserRepository(userDao)
-        userList = userRepository.getUsers()
-
-        val gitHubRepoDao = GitHubRepositoryDatabase.getDatabase(application).repoDao()
-        gitHubRepositoryRepository = GitHubRepositoryRepository(gitHubRepoDao)
-        repoList = gitHubRepositoryRepository.getRepositoriesWithCache()
-
-        val issueDao = IssueDatabase.getDatabase(application).issueDao()
-        issuesRepository = IssueRepository(issueDao)
-        issueList = issuesRepository.getIssuesList()
+    //PUBLIC ACTIONS
+    fun loadDataWhenActivityStarts(login: String) {
+        argsLogin = login
+        getIssueList(false)
     }
 
-    /**
-     * Heavy operation that cannot be done in the Main Thread
-     */
-    fun launchDataLoad() {
-        viewModelScope.launch {
-            retrieveRepositories()
-            retrieveIssues()
-            // TODO: Modify UI
+    fun reloadDataWhenUserRefreshes()
+        = getIssueList(true)
+
+    // ---
+
+    private fun getIssueList(forceRefresh: Boolean) = viewModelScope.launch {
+        _issueList.removeSource(issueSource)
+        //TODO: Figure out how to iteratively grab issue list for each repository
+        for(i in repoList.value!!){
+            withContext(dispatchers.io) { issueSource = getIssueListUseCase(forceRefresh = forceRefresh, login = argsLogin, repo = i.name!!)}
         }
     }
-
-    suspend fun retrieveRepositories() = withContext(Dispatchers.Default) {
-        // Coroutine for potential large quantities of repositories
-
-    }
-
-    suspend fun retrieveIssues() = withContext(Dispatchers.Default) {
-        // Coroutine for potential large quantities of issues
-
-    }
-
 }

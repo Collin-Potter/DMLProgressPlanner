@@ -2,6 +2,7 @@ package com.capotter.dmlprogressplanner.ui.MilestonesActivity
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.capotter.dmlprogressplanner.base.BaseViewModel
 import com.capotter.dmlprogressplanner.data.model.GitHubRepository
 import com.capotter.dmlprogressplanner.data.model.Milestone
 import com.capotter.dmlprogressplanner.data.model.User
@@ -11,58 +12,44 @@ import com.capotter.dmlprogressplanner.data.persistence.User.UserDatabase
 import com.capotter.dmlprogressplanner.data.repository.GitHubRepositoryRepository
 import com.capotter.dmlprogressplanner.data.repository.MilestoneRepository
 import com.capotter.dmlprogressplanner.data.repository.UserRepository
+import com.capotter.dmlprogressplanner.data.repository.utils.AppDispatchers
+import com.capotter.dmlprogressplanner.data.repository.utils.Resource
+import com.capotter.dmlprogressplanner.ui.domain.GetMilestoneListUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MilestonesActivityViewModel(application: Application) : AndroidViewModel(application) {
+class MilestonesActivityViewModel(private val getMilestonesUseCase: GetMilestoneListUseCase,
+                                  private val dispatchers: AppDispatchers) : BaseViewModel() {
 
-    private val userRepository: UserRepository
-    val userList: LiveData<List<User>>
+    //PRIVATE DATA
+    private lateinit var argsLogin: String
+    private var userSource: LiveData<Resource<User>> = MutableLiveData()
+    private var repoSource: LiveData<Resource<List<GitHubRepository>>> = MutableLiveData()
+    private var milestoneSource: LiveData<Resource<List<Milestone>>> = MutableLiveData()
 
-    private val gitHubRepositoryRepository: GitHubRepositoryRepository
-    val repoList: LiveData<List<GitHubRepository>>
+    private val _user = MediatorLiveData<User>()
+    val user: LiveData<User> get() = _user
+    private val _repoList = MediatorLiveData<List<GitHubRepository>>()
+    val repoList: LiveData<List<GitHubRepository>> get() = _repoList
+    private val _milestoneList = MediatorLiveData<List<Milestone>>()
+    val milestoneList: LiveData<List<Milestone>> get() = _milestoneList
+    private val _isLoading = MutableLiveData<Resource.Status>()
+    val isLoading: LiveData<Resource.Status> get() = _isLoading
 
-    private val milestonesRepository: MilestoneRepository
-    val milestoneList: LiveData<List<Milestone>>
-
-    init {
-        val userDao = UserDatabase.getDatabase(application).userDao()
-        userRepository = UserRepository(userDao)
-        userList = userRepository.getUsers()
-
-        val gitHubRepoDao = GitHubRepositoryDatabase.getDatabase(application).repoDao()
-        gitHubRepositoryRepository = GitHubRepositoryRepository(gitHubRepoDao)
-        repoList = gitHubRepositoryRepository.getRepositoryList()
-
-        val milestoneDao = MilestoneDatabase.getDatabase(application).milestoneDao()
-        milestonesRepository = MilestoneRepository(milestoneDao)
-        milestoneList = milestonesRepository.getMilestones()
+    //PUBLIC ACTIONS
+    fun loadDataWhenActivityStarts(login: String) {
+        argsLogin = login
+        getMilestoneList(false)
     }
 
-    /**
-     * Heavy operation that cannot be done in the Main Thread
-     */
-    fun launchDataLoad() {
-        viewModelScope.launch {
-            retrieveUsers()
-            retrieveRepositories()
-            retrieveMilestones()
-            // TODO: Modify UI
+    // ---
+
+    private fun getMilestoneList(forceRefresh: Boolean) = viewModelScope.launch {
+        _milestoneList.removeSource(milestoneSource)
+
+        for(i in repoList.value!!) {
+            withContext(dispatchers.io) { milestoneSource = getMilestonesUseCase(forceRefresh = forceRefresh, login = argsLogin, repo = i.name!!)}
         }
-    }
-
-    suspend fun retrieveUsers() = withContext(Dispatchers.Default) {
-        // Coroutine for potential large quantities of users
-    }
-
-    suspend fun retrieveRepositories() = withContext(Dispatchers.Default) {
-        // Coroutine for potential large quantities of repositories
-
-    }
-
-    suspend fun retrieveMilestones() = withContext(Dispatchers.Default) {
-        // Coroutine for potential large quantities of milestones
-
     }
 }

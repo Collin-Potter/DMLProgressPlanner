@@ -10,8 +10,11 @@ interface IssueDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertIssue(issue: Issue)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertIssues(issues: List<Issue>)
+
     @Query("SELECT * FROM issues")
-    fun getIssues(): LiveData<List<Issue>>
+    fun getIssues(): List<Issue>
 
     @Query("SELECT * FROM issues WHERE title LIKE :title LIMIT 1")
     fun getIssueByTitle(title: String): Issue

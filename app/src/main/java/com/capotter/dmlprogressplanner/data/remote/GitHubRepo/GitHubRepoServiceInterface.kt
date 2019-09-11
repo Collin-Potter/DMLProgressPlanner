@@ -9,7 +9,7 @@ import retrofit2.http.Query
 
 interface GitHubRepoServiceInterface {
     @GET("/users/{username}/repos")
-    fun getRepos(
+    fun getReposForOwner(
         @Query("username")username: String
     ) : Deferred<ApiResult<GitHubRepository>>
 }

@@ -17,7 +17,7 @@ interface GitHubRepositoryRepository {
 
 class GitHubRepositoryRepositoryImpl(private val datasource: GitHubRepoClient,
                                      private val dao: GitHubRepositoryDao): GitHubRepositoryRepository {
-    override suspend fun getRepositoriesWithCache(forceRefresh: Boolean, user: String): LiveData<Resource<List<GitHubRepository>>> {
+    override suspend fun getRepositoriesWithCache(forceRefresh: Boolean, login: String): LiveData<Resource<List<GitHubRepository>>> {
         return object : NetworkBoundResource<List<GitHubRepository>, ApiResult<GitHubRepository>>() {
             override fun processResponse(response: ApiResult<GitHubRepository>): List<GitHubRepository>
                 = response.items
@@ -32,7 +32,7 @@ class GitHubRepositoryRepositoryImpl(private val datasource: GitHubRepoClient,
                 = dao.getRepos()
 
             override fun createCallAsync(): Deferred<ApiResult<GitHubRepository>>
-                = datasource.fetchRepositories(user)
+                = datasource.fetchRepositories(login)
 
         }.build().asLiveData()
     }

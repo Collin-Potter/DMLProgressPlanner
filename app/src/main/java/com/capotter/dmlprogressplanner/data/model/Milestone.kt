@@ -3,6 +3,9 @@ package com.capotter.dmlprogressplanner.data.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import android.os.Parcelable.Creator
+
+
 
 /***
  * Necessary Paramters:
@@ -17,22 +20,34 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "milestones")
 class Milestone(
-    @PrimaryKey(autoGenerate = true)
-    var pid: Long,
-    @ColumnInfo(name = "id")
-    var id: Long,
-    @ColumnInfo(name = "title")
-    var title: String,
+    @ColumnInfo(name = "url")
+    val url: String? = null,
+    @ColumnInfo(name = "html_url")
+    val htmlUrl: String? = null,
+    @ColumnInfo(name = "labels_url")
+    val labelsUrl: String? = null,
+    @PrimaryKey @ColumnInfo(name = "id")
+    val id: Int? = null,
+    @ColumnInfo(name = "node_id")
+    val nodeId: String? = null,
+    @ColumnInfo(name = "number")
+    val number: Int? = null,
     @ColumnInfo(name = "state")
-    var state: String,
+    val state: String? = null,
+    @ColumnInfo(name = "title")
+    val title: String? = null,
     @ColumnInfo(name = "description")
-    var description: String,
+    val description: String? = null,
     @ColumnInfo(name = "open_issues")
-    var open_issues: Int,
+    val openIssues: Int? = null,
+    @ColumnInfo(name = "closed_issues")
+    val closedIssues: Int? = null,
     @ColumnInfo(name = "created_at")
-    var created_at: String,
+    val createdAt: String? = null,
     @ColumnInfo(name = "updated_at")
-    var updated_at: String?,
+    val updatedAt: String? = null,
+    @ColumnInfo(name = "closed_at")
+    val closedAt: String? = null,
     @ColumnInfo(name = "due_on")
-    var due_on: String
-)
+    val dueOn: String? = null)
+

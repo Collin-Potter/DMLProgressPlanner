@@ -14,7 +14,7 @@
                   android:layout_height="match_parent">
 
         <TextView
-                android:text="@{milestone.due_on}"
+                android:text="@{milestone.dueOn}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/due_date"/>
         <TextView
